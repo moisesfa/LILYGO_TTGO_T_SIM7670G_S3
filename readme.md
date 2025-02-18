@@ -8,10 +8,3 @@ Puede encontrar más información en el repositorio oficial de [LilyGO-T-A76XX G
 
 Además del módulo SIM7670G, la placa también viene con algunas características interesantes como un soporte de batería para una batería 18650, un circuito de carga de batería donde puede conectar paneles solares para recargar la batería y una ranura para tarjetas microSD que puede ser útil para proyectos de registro de datos o para guardar ajustes de configuración.
 
-
-
-
-
-
-
-
