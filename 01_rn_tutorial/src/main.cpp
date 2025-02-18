@@ -1,4 +1,11 @@
 #include <Arduino.h>
+#include "../lib/t_sim767xg_s3.h"
+
+#define TINY_GSM_RX_BUFFER 1024 // Set RX buffer to 1Kb
+
+// YOU MUST USE THE TinyGSM-fork LIBRARY BY lewisxhe - https://github.com/lewisxhe/TinyGSM-fork
+// If you already have the vshymanskyy/TinyGSM library installed, you must remove it and use the TinyGSM-fork version by lewisxhe mentioned above
+#include <TinyGsmClient.h>
 
 /*
   Rui Santos & Sara Santos - Random Nerd Tutorials
@@ -20,45 +27,6 @@
 const char *request_url[] = {
   "https://gist.githubusercontent.com/RuiSantosdotme/7db8537cef1c84277c268c76a58d07ff/raw/d3fe4cd6eff1ed43e6dbd1883ab7eba8414e2406/gistfile1.txt"
 };
-
-#define TINY_GSM_RX_BUFFER 1024 // Set RX buffer to 1Kb
-
-#define LILYGO_T_A7670
-#define LILYGO_T_SIM767XG_S3
-
-#if defined(LILYGO_T_SIM767XG_S3)
-#define MODEM_BAUDRATE                      (115200)
-#define MODEM_DTR_PIN                       (9)
-#define MODEM_TX_PIN                        (11)
-#define MODEM_RX_PIN                        (10)
-// The modem boot pin needs to follow the startup sequence.
-#define BOARD_PWRKEY_PIN                    (18)
-#define BOARD_LED_PIN                       (12)
-// There is no modem power control, the LED Pin is used as a power indicator here.
-#define BOARD_POWERON_PIN                   (BOARD_LED_PIN)
-#define MODEM_RING_PIN                      (3)
-#define MODEM_RESET_PIN                     (17)
-#define MODEM_RESET_LEVEL                   LOW
-#define SerialAT                            Serial1
-
-#define BOARD_BAT_ADC_PIN                   (4)
-#define BOARD_SOLAR_ADC_PIN                 (5)
-#define BOARD_MISO_PIN                      (47)
-#define BOARD_MOSI_PIN                      (14)
-#define BOARD_SCK_PIN                       (21)
-#define BOARD_SD_CS_PIN                     (13)
-
-#ifndef TINY_GSM_MODEM_SIM7672
-#define TINY_GSM_MODEM_SIM7672
-#endif
-
-#define MODEM_GPS_ENABLE_GPIO               (4)
-#define MODEM_GPS_ENABLE_LEVEL              (1)
-#endif
-
-// YOU MUST USE THE TinyGSM-fork LIBRARY BY lewisxhe - https://github.com/lewisxhe/TinyGSM-fork
-// If you already have the vshymanskyy/TinyGSM library installed, you must remove it and use the TinyGSM-fork version by lewisxhe mentioned above
-#include <TinyGsmClient.h>
 
 // See all AT commands, if wanted
 //#define DUMP_AT_COMMANDS
@@ -242,6 +210,6 @@ void loop() {
   delay(1);
 }
 
-#ifndef TINY_GSM_FORK_LIBRARY
-  #error "The correct library was NOT found. You must install TinyGSM-fork by lewisxhe - https://github.com/lewisxhe/TinyGSM-fork - No correct definition detected, Please copy all the [lib directories](https://github.com/Xinyuan-LilyGO/LilyGO-T-A76XX/tree/main/lib) to the arduino libraries directory , See README"
-#endif
+// #ifndef TINY_GSM_FORK_LIBRARY
+//   #error "The correct library was NOT found. You must install TinyGSM-fork by lewisxhe - https://github.com/lewisxhe/TinyGSM-fork - No correct definition detected, Please copy all the [lib directories](https://github.com/Xinyuan-LilyGO/LilyGO-T-A76XX/tree/main/lib) to the arduino libraries directory , See README"
+// #endif
