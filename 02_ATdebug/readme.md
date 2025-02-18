@@ -9,4 +9,4 @@
 | AT+CSQ       | Network signal quality query         |              |
 | AT+COPS?     | Querying current Carrier Information |              |
 
-Consulte el manual de instrucciones del SIM767XX para obtener más información [AT instructions](/docs/) 
+Consulte el manual de instrucciones del SIM767XX para obtener más información [AT instructions](docs/) 
