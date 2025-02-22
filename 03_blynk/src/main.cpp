@@ -72,13 +72,14 @@ void sendRandomData()
     Blynk.virtualWrite(V2, t);
 }
 
-void setup()
+void initModen()
 {
-    Serial.begin(115200);
-    // Turn on DC boost to power on the modem
+// Turn on DC boost to power on the modem
+// There is no modem power control, the LED Pin is used as a power indicator here.
 #ifdef BOARD_POWERON_PIN
     pinMode(BOARD_POWERON_PIN, OUTPUT);
-    digitalWrite(BOARD_POWERON_PIN, HIGH);
+    //digitalWrite(BOARD_POWERON_PIN, HIGH);
+    digitalWrite(BOARD_POWERON_PIN, LOW);
 #endif
 
     // Set modem reset pin ,reset modem
@@ -110,8 +111,14 @@ void setup()
 
     String name = modem.getModemName();
     Serial.println("Modem Name: " + name);
+}
 
 
+void setup()
+{
+    Serial.begin(115200);
+    initModen();
+    
     Blynk.begin(BLYNK_AUTH_TOKEN, modem, apn, user, pass);
     // Setup a function to be called every two second
     timer.setInterval(2000L, sendRandomData);
