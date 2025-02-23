@@ -1,4 +1,7 @@
 {
     "cSpell.language": "en,es-ES",
-    "idf.pythonInstallPath": "/Library/Frameworks/Python.framework/Versions/3.12/bin/python3"
+    "idf.pythonInstallPath": "/Library/Frameworks/Python.framework/Versions/3.12/bin/python3",
+    "files.associations": {
+        "*.blynk": "cpp"
+    }
 }

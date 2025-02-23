@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include "../lib/t_sim767xg_s3.h"
+#include "battery.h"
 
 /* Fill in information from Blynk Device Info here */
 #define BLYNK_TEMPLATE_ID           "TMPxxxxxx"
@@ -25,29 +26,6 @@ char apn[]  = "orangeworld";
 char user[] = "";
 char pass[] = "";
 
-#ifdef BOARD_BAT_ADC_PIN
-#include <vector>
-#include <algorithm>
-#include <numeric>
-
-// Calculate the average power data
-uint32_t getBatteryVoltage()
-{
-    std::vector<uint32_t> data;
-    for (int i = 0; i < 30; ++i) {
-        uint32_t val = analogReadMilliVolts(BOARD_BAT_ADC_PIN);
-        // Serial.printf("analogReadMilliVolts : %u mv \n", val * 2);
-        data.push_back(val);
-        delay(30);
-    }
-    std::sort(data.begin(), data.end());
-    data.erase(data.begin());
-    data.pop_back();
-    int sum = std::accumulate(data.begin(), data.end(), 0);
-    double average = static_cast<double>(sum) / data.size();
-    return  average * 2;
-}
-#endif
 
 void sendRandomData(double bat)
 {
@@ -161,10 +139,12 @@ void setup()
     // Setup a function to be called every two second
     //timer.setInterval(2000L, sendRandomData);
 
-    double battery_voltage_mv = getBatteryVoltage();
-    Serial.printf("Battery voltage is ,%u mv, entering sleep mode\n", battery_voltage_mv);
+    uint32_t battery_voltage_mv = getBatteryVoltage();
+    double bat_vol_double = (double)battery_voltage_mv / 1000;
+    Serial.printf("Battery voltage is ,%u mv\n", battery_voltage_mv);
+    Serial.printf("Battery voltage is ,%u v\n", bat_vol_double);
 
-    sendRandomData(battery_voltage_mv);
+    sendRandomData(bat_vol_double);
 
     offModen();
 
