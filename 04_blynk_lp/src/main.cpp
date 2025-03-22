@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include "../lib/t_sim767xg_s3.h"
 #include "battery.h"
+#include "bme280.h"
 
 /* Fill in information from Blynk Device Info here */
 #define BLYNK_TEMPLATE_ID           "TMPxxxxxx"
@@ -9,6 +10,7 @@
 
 #define uS_TO_S_FACTOR      1000000ULL  /* Conversion factor for micro seconds to seconds */
 #define TIME_TO_SLEEP       30          /* Time ESP32 will go to sleep (in seconds) */
+#define TPS_ON 1                        // GPIO 1 del ESP32-S3
 
 // Default heartbeat interval for GSM is 60
 // If you want override this value, uncomment and set this option:
@@ -27,11 +29,15 @@ char user[] = "";
 char pass[] = "";
 
 
-void sendRandomData(double bat)
+void sendData(double bat)
 {
     //Send randomly generated fake data
-    float h = random(0, 100);
-    float t = random(0, 50);
+    //float h = random(0, 100);
+    //float t = random(0, 50);
+    
+    float h = bme280_read_hum();
+    float t = bme280_read_tem();
+
     Serial.printf("Hum = %f \t",h);
     Serial.printf("Tem = %f \n",t);
     Blynk.virtualWrite(V1, h);
@@ -118,6 +124,9 @@ void offModen()
 
 void setup()
 {
+    pinMode(TPS_ON, OUTPUT);        // Configurar GPIO 1 como salida
+    digitalWrite(TPS_ON, LOW);      // Asegurar que inicie apagado
+
     Serial.begin(115200);
     
     if (esp_sleep_get_wakeup_cause() == ESP_SLEEP_WAKEUP_TIMER) {
@@ -132,7 +141,9 @@ void setup()
         Serial.println("TurnON Modem!");
     }
     
+    digitalWrite(TPS_ON, HIGH);  // Encender sensores
     initModen();
+    bme280_init();
     
     Blynk.begin(BLYNK_AUTH_TOKEN, modem, apn, user, pass);
     
@@ -144,8 +155,9 @@ void setup()
     Serial.printf("Battery voltage is ,%u mv\n", battery_voltage_mv);
     Serial.printf("Battery voltage is ,%u v\n", bat_vol_double);
 
-    sendRandomData(bat_vol_double);
-
+    sendData(bat_vol_double);
+    
+    digitalWrite(TPS_ON, LOW);   // Apagar sensores
     offModen();
 
     Serial.println("Enter esp32 goto deepsleep!");

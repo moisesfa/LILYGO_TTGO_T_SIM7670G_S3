@@ -25,3 +25,9 @@ El siguiente paso es conectar sensores pero de una forma eficiente y que no cons
 <br><br>
 ![result_esq](docs/esq_ali_sen.png)
 <br><br>
+
+## Sensor BME280 
+
+La prueba será ver cuanto dura la batería del T-SIM7670G S3 con un sensor BME280 cuya alimentación estará controlada con el TPS22860. También conectaré un panel solar aunque de momento solo lo usare en interior cercano a una ventana.   
+
+Esquema de la conexión aquí ...
